@@ -11,6 +11,13 @@ final class app
 		$this->_data['drivers'] = 'drivers/';
 
 		$this->readEnvConfig();
+
+        foreach ($this->_data['config']['database']['redis'] as &$_redis) {
+            if (!isset($_redis['name']) || empty($_redis['name'])){
+                $_redis['name'] = $_redis['host'].':'.$_redis['port'];
+            }
+        }
+        unset($_redis);
     }
 
     public static function instance()
