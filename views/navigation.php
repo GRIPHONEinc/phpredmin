@@ -2,7 +2,7 @@
     <li class="nav-header">Server & databases</li>
     <li class="server active">
         <a href="<?=$this->router->url?>/welcome/index/<?= $this->app->current['serverId'] . '/0' ?>">
-            <i class="icon-chevron-down"></i> <?= $this->app->current['host'] ?>:<?= $this->app->current['port'] ?>
+            <i class="icon-chevron-down"></i> <?= $this->app->current['name'] ?>
         </a>
     </li>
 </ul>
@@ -37,7 +37,7 @@
             <?php if ($serverId != $this->app->current['serverId']) : ?>
                 <li class="server">
                     <a href="<?=$this->router->url?>/welcome/index/<?= $serverId . '/0' ?>">
-                        <i class="icon-chevron-right"></i> <?= $server['host'] ?>:<?= $server['port'] ?>
+                        <i class="icon-chevron-right"></i> <?= $server['name'] ?>
                     </a>
                 </li>
             <?php endif; ?>
