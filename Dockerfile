@@ -48,5 +48,10 @@ ENV PHPREDMIN_LOG_THRESHOLD="4"
 
 WORKDIR /var/www/html/phpredmin/public
 
+# URI prefix setting
+ENV URI_PREFIX /pra
+
+RUN echo "ServerName localhost$URI_PREFIX:80" >> /etc/apache2/apache2.conf
+
 RUN chmod u+x /usr/src/start.sh
 CMD ["/usr/src/start.sh"]
