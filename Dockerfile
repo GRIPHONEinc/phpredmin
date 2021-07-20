@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 	git-core \
 	libgearman-dev \
 	redis-tools \
-	&& pecl install gearman \
+	&& pecl install gearman-1.1.2 \
 	&& docker-php-ext-enable gearman
 
 
