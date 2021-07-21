@@ -1,0 +1,37 @@
+name: Build and Publish Image
+
+on:
+  push:
+    tags:
+    - "*"
+
+jobs:
+  build-and-publish:
+    name: Build and Publish phpredmin image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
+    
+    - name: Setup Google Cloud
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_email: docker-image-ci-test-user@gpn-platform-shimada.iam.gserviceaccount.com
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
+        project_id: gpn-platform-shimada
+    
+    - run: |
+        gcloud auth configure-docker asia-docker.pkg.dev
+    
+    - name: Build
+      run: |
+        export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+        docker build -t asia-docker.pkg.dev/gpn-platform-shimada/phpredmin/phpredmin:"$TAG" ./
+
+    - name: Publish
+      run: |
+        export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+        docker push asia-docker.pkg.dev/gpn-platform-shimada/phpredmin/phpredmin:"$TAG"
