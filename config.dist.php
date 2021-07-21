@@ -3,7 +3,8 @@
 function getRedisUnit() {
     return array(
         'host'     => '',       // (str)REDMIN_REDIS_n_HOST
-        'port'     => '6379',       // (str)REDMIN_REDIS_n_PORT
+        'port'     => '6379',   // (str)REDMIN_REDIS_n_PORT
+        'name'     => '',       // (str)REDMIN_REDIS_n_NAME
         'password' => null,     // (str)REDMIN_REDIS_n_PASSWORD
         'database' => 0,        // (int)REDMIN_REDIS_n_DATABASE
         'max_databases' => 16,  // (int)REDMIN_REDIS_n_MAX_DATABASES
@@ -57,6 +58,13 @@ function getRedisArrayFromEnvs($envs) {
             $result[$regexResult[2]] = insertRedisValue($regexResult[3], $value, $result[$regexResult[2]]);
         }
     }
+
+    foreach ($result as &$_redis) {
+        if (!isset($_redis['name']) || empty($_redis['name'])) {
+            $_redis['name'] = $_redis['host'].':'.$_redis['port'];
+        }
+    }
+    unset($_redis);
 
     ksort($result);
     return $result;
